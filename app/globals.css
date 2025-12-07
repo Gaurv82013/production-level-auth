@@ -24,3 +24,15 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Force cursor pointer on all interactive Clerk elements */
+[data-clerk-element],
+button,
+a,
+[role="button"] {
+  cursor: pointer !important;
+}
