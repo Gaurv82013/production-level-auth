@@ -1,16 +1,8 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { clerkMiddleware } from '@clerk/nextjs/server'
 
-const isPublicRoute = createRouteMatcher([
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/api/webhooks(.*)'  // 👈 Webhook must be PUBLIC
-])
-
-export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) {
-    await auth.protect()
-  }
-})
+// Use the Next.js matcher to control which routes don't require protection
+// (e.g. sign-in, sign-up, webhooks).
+export default clerkMiddleware()
 
 export const config = {
   matcher: [
