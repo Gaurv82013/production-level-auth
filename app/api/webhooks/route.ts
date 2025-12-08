@@ -3,9 +3,9 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/db";
+import User from "@/models/User";
 
-// If you are using Prisma, import it here
-// import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   // 1. Get the body as text (important for signature verification)
@@ -46,12 +46,30 @@ export async function POST(req: Request) {
       console.log("User created:", data);
 
       // Example: Sync to DB
+      await connectDB();
+      await User.create({
+        clerkId: data.id,
+        email: data.emailAddresses[0].emailAddress,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        image: data.imageUrl,
+      });
       break;
 
     case "user.updated":
       console.log("User updated:", data);
 
       // Example: Update DB
+      await connectDB();
+      await User.findOneAndUpdate(
+        { clerkId: data.id },
+        {
+          email: data.emailAddresses[0].emailAddress,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          image: data.imageUrl,
+        }
+      );
 
       break;
 
@@ -59,7 +77,8 @@ export async function POST(req: Request) {
       console.log("User deleted:", data);
 
       // Example: Soft delete or hard delete
-
+        await connectDB();
+        await User.findOneAndDelete({ clerkId: data.id });
       break;
 
     default:
