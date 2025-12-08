@@ -12,12 +12,14 @@ const Navbar = () => {
             <div className='flex flex-row gap-8'>
                 <Link href="/">Home</Link>
                 <Link href="/about">About</Link>
-                <SignedOut>
-                    <SignUpButton mode='modal'>Get Started</SignUpButton>
-                </SignedOut>
+                
                 <SignedIn>
-                    <UserButton />
+                    <UserButton/>
                 </SignedIn>
+                <SignedOut>
+                    <Link href="/sign-up">Sign Up</Link>
+                    <Link href="/sign-in">Sign In</Link>
+                </SignedOut>
                 
             </div>
             
